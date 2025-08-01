@@ -8,7 +8,7 @@ def main():
     client = bigquery.Client()
     
     # Read from the table created by SQL Runner
-    table_name = "demsvasp.sbx_williamsf.all_regions_turfs"
+    table_name = "demsvasp.commons.all_regions_turfs"
     
     query = f"SELECT * FROM `{table_name}`"
     all_regions_turfs = client.query(query).to_dataframe()
