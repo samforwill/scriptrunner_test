@@ -1,0 +1,4 @@
+geopandas
+pandas
+google-cloud-bigquery
+shapely
