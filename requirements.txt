@@ -2,3 +2,4 @@ geopandas
 pandas
 google-cloud-bigquery
 shapely
+db-dtypes
