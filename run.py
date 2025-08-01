@@ -52,11 +52,8 @@ def main():
         # Split by individual turfs within the region
         for turf_name, turf_data in region_data.groupby('fo_name'):
             # Clean the filename - remove problematic characters and strip trailing underscores
-            filename = turf_name.replace(' ', '_').replace('-', '').lower().strip('_')
+            filename = turf_name.replace(' ', '_').replace('-', '').replace('/', '_').lower().strip('_')
             turf_filename = f"output/{filename}.csv"
-            
-            # Ensure output directory exists before each write
-            os.makedirs('output', exist_ok=True)
             
             turf_data.to_csv(turf_filename, index=False)
             print(f"  Saved {turf_filename} with {len(turf_data)} rows")
