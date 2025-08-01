@@ -8,7 +8,8 @@ def main():
     client = bigquery.Client()
     
     # Read from the table created by SQL Runner
-    table_name = "demsvasp.commons.all_regions_turfs"
+    # You'll need to adjust this table name to match what SQL Runner creates
+    table_name = "your_dataset.all_regions_turfs"  # Adjust this
     
     query = f"SELECT * FROM `{table_name}`"
     all_regions_turfs = client.query(query).to_dataframe()
@@ -52,8 +53,8 @@ def main():
         
         # Split by individual turfs within the region
         for turf_name, turf_data in region_data.groupby('fo_name'):
-            # Clean the filename
-            filename = turf_name.replace(' ', '_').replace('-', '').lower()
+            # Clean the filename - remove problematic characters and strip trailing underscores
+            filename = turf_name.replace(' ', '_').replace('-', '').lower().strip('_')
             turf_filename = f"output/{filename}.csv"
             turf_data.to_csv(turf_filename, index=False)
             print(f"  Saved {turf_filename} with {len(turf_data)} rows")
