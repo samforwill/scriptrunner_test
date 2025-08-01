@@ -8,14 +8,12 @@ def main():
     client = bigquery.Client()
     
     # Read from the table created by SQL Runner
-    # You'll need to adjust this table name to match what SQL Runner creates
-    table_name = "your_dataset.all_regions_turfs"  # Adjust this
+    table_name = "demsvasp.commons.all_regions_turfs"  
     
     query = f"SELECT * FROM `{table_name}`"
     all_regions_turfs = client.query(query).to_dataframe()
     
-    # Load the master shapefile (assuming this is available in your environment)
-    # You might need to adjust the path or read this from GCS/BigQuery
+    # Load the master shapefile 
     andy_shapefile = gpd.read_file('data/master_precinct_shapes.csv')
     
     # Ensure GEOID columns are strings for proper merging
@@ -56,6 +54,10 @@ def main():
             # Clean the filename - remove problematic characters and strip trailing underscores
             filename = turf_name.replace(' ', '_').replace('-', '').lower().strip('_')
             turf_filename = f"output/{filename}.csv"
+            
+            # Ensure output directory exists before each write
+            os.makedirs('output', exist_ok=True)
+            
             turf_data.to_csv(turf_filename, index=False)
             print(f"  Saved {turf_filename} with {len(turf_data)} rows")
     
